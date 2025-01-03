@@ -4,7 +4,7 @@ from app.core.application.ports import EmailSender
 
 
 class AwsEmailAdapter(EmailSender):
-    def __init__(self, aws_access_key: str, aws_secret_key: str, region: str):
+    def __init__(self):
         self.client = boto3.client(
             'ses',
             aws_access_key_id=config('AWS_ACCESS_KEY'),

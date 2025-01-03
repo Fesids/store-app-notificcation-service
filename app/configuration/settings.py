@@ -14,6 +14,7 @@ from pathlib import Path
 
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +27,9 @@ SECRET_KEY = 'django-insecure-63q24raxnmgu&6u5j5p&(#d^^ihug&-=0rk+*@6q#_hi+c3&4f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
+#DEBUG=False
+#print(config('DEBUG', cast=bool, default=True))
+
 SECRET_KEY = config('SECRET_KEY')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: v.split(','), default=[])
 
@@ -38,9 +42,6 @@ AWS_SECRET_KEY = config('AWS_SECRET_KEY')
 AWS_REGION = config('AWS_REGION')
 
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,6 +54,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+INSTALLED_APPS += ['channels']
+ASGI_APPLICATION = "configuration.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

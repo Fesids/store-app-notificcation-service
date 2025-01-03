@@ -7,4 +7,5 @@ from app.core.domain.entities import NotificationType
 class NotificationDTO:
     recipient: str
     content: str
+    metaData: {}
     notification_type: NotificationType
