@@ -8,7 +8,7 @@ class NotificationStatus(Enum):
 
 class NotificationType(Enum):
     EMAIL = "email"
-    SMS = "SMS"
+    SMS = "sms"
 
 
 @dataclass

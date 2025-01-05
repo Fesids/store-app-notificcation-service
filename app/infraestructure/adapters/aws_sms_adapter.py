@@ -1,7 +1,7 @@
 
 import boto3
 from decouple import config
-from app.core.application.ports import SmsSender
+from core.application.ports import SmsSender
 
 
 class AwsSmsAdapter(SmsSender):
@@ -14,4 +14,5 @@ class AwsSmsAdapter(SmsSender):
         )
 
     def send_sms(self, recipient: str, content: str):
+
         self.client.publish(PhoneNumber=recipient, Message=content)

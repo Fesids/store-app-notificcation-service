@@ -1,6 +1,8 @@
-from app.core.application.ports import EmailSender, SmsSender
-from app.core.domain.entities import Notification
-from app.infraestructure.adapters.database_adapter import MongoDBNotificationRepository
+from datetime import datetime
+
+from core.application.ports import EmailSender, SmsSender
+from core.domain.entities import Notification
+from infraestructure.adapters.database_adapter import MongoDBNotificationRepository
 import logging
 
 class NotificationService:
@@ -19,36 +21,33 @@ class NotificationService:
 
         self.repository.save_notification(notification)'''
 
-    def send_notification(self, data: dict):
-
-        recipient = data.get("recipient")
-        content = data.get("content")
-        metadata = data.get("metadata", {})
-        channels = data.get("channels", ["system"])  # Default to "system"
-
-
-        notification_id = self.repository.save_notification({
-            "recipient": recipient,
-            "content": content,
-            "metadata": metadata,
-            "status": "unread",
-        })
-
+    def send_notification(self, notification: Notification, channels):
 
         if "email" in channels and self.email_sender:
             try:
-                self.email_sender.send_email(recipient, content)
+                print(channels)
+                self.email_sender.send_email(notification.recipient, notification.content)
+                self.repository.save_notification(notification)
             except Exception as e:
                 self.logger.error(f"Failed to send email notification: {e}")
 
         if "sms" in channels and self.sms_sender:
             try:
-                self.sms_sender.send_sms(recipient, content)
+                print(channels)
+                self.sms_sender.send_sms(notification.recipient, notification.content)
+                self.repository.save_notification(notification)
             except Exception as e:
                 self.logger.error(f"Failed to send SMS notification: {e}")
 
 
-        self.logger.info(f"Notification sent: {notification_id}")
+        self.logger.info(f"Notification sent: {notification}")
+        '''try:
+            print(channels)
+            self.repository.save_notification(notification)
+
+            self.email_sender.send_email(notification.recipient, notification.content)
+        except Exception as e:
+            print(e)'''
 
 
 

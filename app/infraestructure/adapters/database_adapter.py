@@ -1,5 +1,5 @@
-from app.core.domain.entities import Notification
-from app.infraestructure.persistence.database_config import MongoDBConfig
+from core.domain.entities import Notification
+from infraestructure.persistence.database_config import MongoDBConfig
 from datetime import datetime
 from datetime import datetime
 from pymongo import MongoClient
