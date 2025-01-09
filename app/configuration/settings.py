@@ -14,6 +14,7 @@ from pathlib import Path
 
 from decouple import config
 
+import framework.django.authentication
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-INSTALLED_APPS += ['channels']
+INSTALLED_APPS += ['channels', 'rest_framework', 'rest_framework_simplejwt']
 ASGI_APPLICATION = "configuration.asgi.application"
 
 CHANNEL_LAYERS = {
@@ -124,6 +125,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'framework.django.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

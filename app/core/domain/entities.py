@@ -19,3 +19,15 @@ class Notification:
     status: NotificationStatus.UNREAD
     metaData: {}
     timestamp: datetime = datetime.now().timestamp()
+
+
+class UserContext:
+
+    def __init__(self, guid: str, email: str, roles: list):
+        self.guid = guid
+        self.email = email
+        #self.roles = roles
+
+    @property
+    def is_authenticated(self):
+        return True

@@ -5,11 +5,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import BasePermission, IsAuthenticated, AllowAny
+from rest_framework.permissions import BasePermission,  AllowAny
 from rest_framework import status
 
 from core.application.services import NotificationService
 from core.domain.entities import Notification, NotificationType
+from framework.django.authentication import JWTAuthentication
+from framework.django.permissions import IsAuthenticated
 from infraestructure.adapters.aws_email_adapter import AwsEmailAdapter
 from infraestructure.adapters.aws_sms_adapter import AwsSmsAdapter
 from infraestructure.adapters.database_adapter import MongoDBNotificationRepository
@@ -30,10 +32,11 @@ repository = MongoDBNotificationRepository(mongo_config, "notifications")
 
 
 class Teste(APIView):
-
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request, format=None):
-
-        return Response({'msg': 'ok ok'}, status=status.HTTP_200_OK)
+        print(request.user)
+        return Response({'msg': 'ok'}, status=status.HTTP_200_OK)
 
 
 
